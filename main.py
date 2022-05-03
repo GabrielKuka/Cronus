@@ -1,4 +1,4 @@
-import requests
+import requests,sys
 from config import *
 from colorama import Style, Fore
 
@@ -213,79 +213,29 @@ def check_aboutme(username=""):
 
 def check_social(username):
     result = []
-    res = ""
+
+    def print_each(social, func):
+        print(f"Checking {social}:", end=" ")
+        res = f"{social}: {func}"
+        print(f"{Fore.GREEN}{res[res.find(':')+1:]}{Style.RESET_ALL}")
+        result.append(res)
 
     print("Analysing the internet...")
     
-    print("Checking Pinterest: ", end=" ")
-    res = f"Pinterest: {check_pinterest(username)}"
-    print(res[res.find(":")+1:])
-    result.append(res)
+    print_each("Pinterest", check_pinterest(username))
+    print_each("VK", check_vk(username))
+    print_each("Tumblr", check_tumblr(username))
+    print_each("Reddit", check_reddit(username))
+    print_each("Docker", check_docker(username))
+    print_each("Github", check_github(username))
+    print_each("Ebay", check_ebay(username))
+    print_each("Slideshare", check_slideshare(username))
+    print_each("Patreon", check_patreon(username))
+    print_each("Quora", check_quora(username))
+    print_each("Trello", check_trello(username))
+    print_each("Disqus", check_disqus(username))
+    print_each("AboutMe", check_aboutme(username))
 
-    print("Checking VK:", end=" ")
-    res = f"VK: {check_vk(username)}"
-    print(res[res.find(":")+1:])
-    result.append(res)
-
-    print("Checking Tumblr:", end=" ")
-    res = f"Tumblr: {check_tumblr(username)}"
-    print(res[res.find(":")+1:])
-    result.append(res)
-
-    print("Checking Reddit:", end=" ")
-    res = f"Reddit: {check_reddit(username)}"
-    print(res[res.find(":")+1:])
-    result.append(res)
-
-    print("Checking Docker:", end=" ")
-    res = f"Docker: {check_docker(username)}"
-    print(res[res.find(":")+1:])
-    result.append(res)
-
-    print("Checking Ebay:", end=" ")
-    res = f"Ebay: {check_ebay(username)}"
-    print(res[res.find(":")+1:])
-    result.append(res)
-
-    print("Checking Slideshare:", end=" ")
-    res = f"Slideshare: {check_slideshare(username)}"
-    print(res[res.find(":")+1:])
-    result.append(res)
-
-    print("Checking Patreon:", end=" ")
-    res = f"Patreon: {check_patreon(username)}"
-    print(res[res.find(":")+1:])
-    result.append(res)
-
-    print("Checking Quora:", end=" ")
-    res = f"Quora: {check_quora(username)}"
-    print(res[res.find(":")+1:])
-    result.append(res)
-
-    print("Checking Github:", end=" ")
-    res = f"Github: {check_github(username)}"
-    print(res[res.find(":")+1:])
-    result.append(res)
-
-    print("Checking Trello:", end=" ")
-    res = f"Trello: {check_trello(username)}"
-    print(res[res.find(":")+1:])
-    result.append(res)
-
-    print("Checking Dribbble:", end=" ")
-    res = f"Dribbble: {check_dribbble(username)}"
-    print(res[res.find(":")+1:])
-    result.append(res)
-
-    print("Checking Disqus:", end=" ")
-    res = f"Disqus: {check_disqus(username)}"
-    print(res[res.find(":")+1:])
-    result.append(res)
-
-    print("Checking AboutMe:", end=" ")
-    res = f"Disqus: {check_aboutme(username)}"
-    print(res[res.find(":")+1:])
-    result.append(res)
 
     found = list(filter(lambda x: x.find("Not Found")==-1 and x.find("Error")==-1,result))
 
@@ -293,7 +243,10 @@ def check_social(username):
     for f in found:
         print(f)
 
-username = input("Enter username: ")
+username = input("Enter username (or \"q\" to exit): ")
 
-check_social(username)
-
+while username:
+    if username == "q":
+        sys.exit(0)
+    check_social(username)
+    username = input("\nEnter username (or \"q\" to exit): ")
