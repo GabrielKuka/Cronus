@@ -5,146 +5,75 @@ from colorama import Style, Fore
 def danger(msg):
     return f"{Fore.RED}{msg}{Style.RESET_ALL}"
 
-def check_trello(username=""):
+def default_return(request, res_url):
+    status = request.status_code
 
-    if not username:
-        return "No Username Entered"
+    if not status or not res_url:
+        return danger("[!] Error. Request status or response URL is wrong")
+
+    if status == 200:
+        return res_url
+    elif status == 404:
+        return danger("[-] Not Found")
+    else:
+        return danger(f"[!] Error. Status Code: {status}")
+
+def check_trello(username=""):
     
     r = requests.get(f"{TRELLO_REQUEST}/{username}/?invitationTokens=")
 
-    status = r.status_code
-
-    if status == 200:
-        return f"{TRELLO_RESPONSE}/{username}"
-    elif status == 404:
-        return danger("Not Found") 
-    else:
-        return "Error"
+    return default_return(r, f"{TRELLO_RESPONSE}/{username}")
 
 def check_pinterest(username=""):
-    if not username:
-        return "No Username Entered"
 
     r = requests.get(f"{PINTEREST_REQUEST}/{username}")
 
-    status = r.status_code    
-
-    if status==200:
-        return f"{PINTEREST_REQUEST}/{username}"
-    elif status==404:
-        return danger("Not Found") 
-    else:
-        return "Error"
+    return default_return(r, f"{PINTEREST_REQUEST}/{username}")
 
 def check_github(username=""):
-    if not username:
-        return "No Username Entered"
     
     r = requests.get(f"{GITHUB_REQUEST}/{username}")
 
-    status = r.status_code
-
-    if status == 200:
-        return f"{GITHUB_REQUEST}/{username}"
-    elif status == 404:
-        return danger("Not Found") 
-    else:
-        return "Error"
+    return default_return(r, f"{GITHUB_REQUEST}/{username}")
 
 def check_quora(username=""):
-    if not username:
-        return "No Username Entered"
     
     r = requests.get(f"{QUORA_REQUEST}/{username}")
 
-    status = r.status_code
-
-    if status == 200:
-        return f"{QUORA_RESPONSE}/{username}"
-    elif status == 404:
-        return danger("Not Found") 
-    else:
-        return "Error"
+    return default_return(r, f"{QUORA_RESPONSE}/{username}")
 
 def check_vk(username=""):
-    if not username:
-        return "No Username Entered"
     
     r = requests.get(f"{VK_REQUEST}/{username}")
 
-    status = r.status_code
-
-    if status == 200:
-        return f"{VK_REQUEST}/{username}"
-    elif status == 404:
-        return danger("Not Found") 
-    else:
-        return "Error"
+    return default_return(r, f"{VK_REQUEST}/{username}")
 
 def check_tumblr(username=""):
-    if not username:
-        return "No Username Entered"
     
     r = requests.get(f"https://{username}.tumblr.com/")
 
-    status = r.status_code
-
-    if status == 200:
-        return f"https://{username}.tumblr.com/"
-    elif status == 404:
-        return danger("Not Found") 
-    else:
-        return "Error"
+    return default_return(r, f"https://{username}.tumblr.com/")
 
 def check_slideshare(username=""):
-    if not username:
-        return "No Username Entered"
     
     r = requests.get(f"{SLIDESHARE_REQUEST}/{username}")
 
-    status = r.status_code
-
-    if status == 200:
-        return f"{SLIDESHARE_REQUEST}/{username}"
-    elif status == 404:
-        return danger("Not Found") 
-    else:
-        return "Error"
+    return default_return(r, f"{SLIDESHARE_REQUEST}/{username}")
 
 def check_reddit(username=""):
-    if not username:
-        return "No Username Entered"
-    
+     
     r = requests.get(f"{REDDIT_REQUEST}/{username}/about/.json")
 
-    status = r.status_code
-
-    if status == 200:
-        return f"{REDDIT_REQUEST}/{username}"
-    elif status == 404:
-        return danger("Not Found") 
-    else:
-        return "Error"
+    return default_return(r, f"{REDDIT_REQUEST}/{username}")
 
 def check_patreon(username=""):
-    if not username:
-        return "No Username Entered"
-    
+     
     r = requests.get(f"{PATREON_REQUEST}/{username}")
 
-    status = r.status_code
-
-    if status == 200:
-        return f"{PATREON_REQUEST}/{username}"
-    elif status == 404:
-        return danger("Not Found") 
-    else:
-        return "Error"
+    return default_return(r, f"{PATREON_REQUEST}/{username}")
 
 def check_ebay(username=""):
-    if not username:
-        return "No Username Entered"
-    
+     
     r = requests.get(f"{EBAY_REQUEST}/{username}")
 
     result = r.text.find("The User ID you entered was not found")
@@ -155,61 +84,28 @@ def check_ebay(username=""):
         return danger("Not Found") 
         
 def check_docker(username=""):
-    if not username:
-        return "No Username Entered"
     
     r = requests.get(f"{DOCKER_REQUEST}/{username}/")
 
-    status = r.status_code
-
-    if status == 200:
-        return f"{DOCKER_RESPONSE}/{username}"
-    elif status == 404:
-        return danger("Not Found") 
-    else:
-        return "Error"
+    return default_return(r, f"{DOCKER_RESPONSE}/{username}")
 
 def check_dribbble(username=""):
-    if not username: return "No Username Entered"
 
     r = requests.get(f'{DRIBBBLE_REQUEST}/{username}')
 
-    status = r.status_code
-
-    if status == 200:
-        return f"{DRIBBBLE_REQUEST}/{username}"
-    elif status == 404:
-        return danger("Not Found")
-    else:
-        return "Error"
+    return default_return(r, f"{DRIBBBLE_REQUEST}/{username}")
 
 def check_disqus(username=""):
-    if not username: return "No Username Entered"
 
     r = requests.get(f'{DISQUS_REQUEST}/{username}')
 
-    status = r.status_code
-
-    if status == 200:
-        return f"{DISQUS_REQUEST}/{username}"
-    elif status == 404:
-        return danger("Not Found")
-    else:
-        return "Error"
+    return default_return(r, f"{DISQUS_REQUEST}/{username}")
 
 def check_aboutme(username=""):
-    if not username: return "No Username Entered"
 
     r = requests.get(f'{ABOUTME_REQUEST}/{username}')
 
-    status = r.status_code
-
-    if status == 200:
-        return f"{ABOUTME_REQUEST}/{username}"
-    elif status == 404:
-        return danger("Not Found")
-    else:
-        return "Error"
+    return default_return(r, f"{ABOUTME_REQUEST}/{username}")
 
 def check_social(username):
     result = []
@@ -247,6 +143,10 @@ username = input("Enter username (or \"q\" to exit): ")
 
 while username:
     if username == "q":
+        print(f"{Fore.GREEN}Bye!")
         sys.exit(0)
     check_social(username)
     username = input("\nEnter username (or \"q\" to exit): ")
+
+if not username: 
+    print(f"{Fore.RED}[!] You didn't enter a username. Try again. Bye!")
