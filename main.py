@@ -169,6 +169,48 @@ def check_docker(username=""):
     else:
         return "Error"
 
+def check_dribbble(username=""):
+    if not username: return "No Username Entered"
+
+    r = requests.get(f'{DRIBBBLE_REQUEST}/{username}')
+
+    status = r.status_code
+
+    if status == 200:
+        return f"{DRIBBBLE_REQUEST}/{username}"
+    elif status == 404:
+        return danger("Not Found")
+    else:
+        return "Error"
+
+def check_disqus(username=""):
+    if not username: return "No Username Entered"
+
+    r = requests.get(f'{DISQUS_REQUEST}/{username}')
+
+    status = r.status_code
+
+    if status == 200:
+        return f"{DISQUS_REQUEST}/{username}"
+    elif status == 404:
+        return danger("Not Found")
+    else:
+        return "Error"
+
+def check_aboutme(username=""):
+    if not username: return "No Username Entered"
+
+    r = requests.get(f'{ABOUTME_REQUEST}/{username}')
+
+    status = r.status_code
+
+    if status == 200:
+        return f"{ABOUTME_REQUEST}/{username}"
+    elif status == 404:
+        return danger("Not Found")
+    else:
+        return "Error"
+
 def check_social(username):
     result = []
     res = ""
@@ -227,6 +269,21 @@ def check_social(username):
 
     print("Checking Trello:", end=" ")
     res = f"Trello: {check_trello(username)}"
+    print(res[res.find(":")+1:])
+    result.append(res)
+
+    print("Checking Dribbble:", end=" ")
+    res = f"Dribbble: {check_dribbble(username)}"
+    print(res[res.find(":")+1:])
+    result.append(res)
+
+    print("Checking Disqus:", end=" ")
+    res = f"Disqus: {check_disqus(username)}"
+    print(res[res.find(":")+1:])
+    result.append(res)
+
+    print("Checking AboutMe:", end=" ")
+    res = f"Disqus: {check_aboutme(username)}"
     print(res[res.find(":")+1:])
     result.append(res)
 

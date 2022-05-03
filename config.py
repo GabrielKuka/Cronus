@@ -1,4 +1,7 @@
 PINTEREST_REQUEST = "https://pinterest.com"
+ABOUTME_REQUEST = "https://about.me"
+DISQUS_REQUEST = "https://disqus.com/by"
+DRIBBBLE_REQUEST = "https://dribbble.com"
 GITHUB_REQUEST = "https://github.com"
 PATREON_REQUEST= "https://patreon.com"
 EBAY_REQUEST= "https://ebay.com/usr"
