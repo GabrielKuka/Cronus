@@ -1,3 +1,4 @@
+from email.policy import default
 import requests,sys
 from config import *
 from colorama import Style, Fore
@@ -81,7 +82,7 @@ def check_ebay(username=""):
     if result == -1:
         return f"{EBAY_REQUEST}/{username}"
     else:
-        return danger("Not Found") 
+        return danger("[-] Not Found") 
         
 def check_docker(username=""):
     
@@ -107,6 +108,58 @@ def check_aboutme(username=""):
 
     return default_return(r, f"{ABOUTME_REQUEST}/{username}")
 
+def check_7cups(username=""):
+    r = requests.get(f"{CUPS7_REQUEST}/@{username}")
+
+    return default_return(r, f"{CUPS7_REQUEST}/@{username}")
+
+def check_artistsnclients(username=""):
+    r = requests.get(f"{ARTISTSNCLIENTS_REQUEST}/{username}")
+
+    return default_return(r, f"{ARTISTSNCLIENTS_REQUEST}/{username}")
+
+def check_ameblo(username=""):
+    r = requests.get(f"{AMEBLO_REQUEST}/{username}")
+
+    return default_return(r, f"{AMEBLO_REQUEST}/{username}")
+
+def check_aminoapps(username=""):
+    r = requests.get(f"{AMINOAPPS_REQUEST}/{username}")
+
+    return default_return(r, f"{AMINOAPPS_REQUEST}/{username}")
+
+def check_cloudflare(username=""):
+    r = requests.get(f"{CLOUDFLARE_REQUEST}/{username}")
+
+    return default_return(r, f"{CLOUDFLARE_REQUEST}/{username}")
+
+def check_cnet(username=""):
+    r = requests.get(f"{CNET_REQUEST}/{username}")
+
+    return default_return(r, f"{CNET_REQUEST}/{username}")
+
+def check_devto(username=""):
+    r = requests.get(f"{DEVTO_REQUEST}/{username}")
+
+    return default_return(r, f"{DEVTO_REQUEST}/{username}")
+
+def check_kickstarter(username=""):
+    r = requests.get(f"{KICKSTARTER_REQUEST}/{username}")
+
+    return default_return(r, f"{KICKSTARTER_REQUEST}/{username}")
+
+def check_animeplanet(username=""):
+    r = requests.get(f"{ANIMEPLANET_REQUEST}/{username}")
+
+    status = r.status_code
+
+    if status == 200:
+        return f"{ANIMEPLANET_REQUEST}/{username}"
+    elif status == 302:
+        return danger("[-] Not Found")
+    else:
+        return danger(f"[!] Error. Status Code: {status}")
+
 def check_social(username):
     result = []
 
@@ -131,6 +184,15 @@ def check_social(username):
     print_each("Trello", check_trello(username))
     print_each("Disqus", check_disqus(username))
     print_each("AboutMe", check_aboutme(username))
+    print_each("7Cups", check_7cups(username))
+    print_each("ArtistsNClients", check_artistsnclients(username))
+    print_each("Ameblo", check_ameblo(username))
+    print_each("AminoApps", check_aminoapps(username))
+    print_each("Anime-Planet", check_animeplanet(username))
+    print_each("CNet", check_cnet(username))
+    print_each("CloudFlare", check_cloudflare(username))
+    print_each("dev.to", check_devto(username))
+    print_each("Kickstarter", check_kickstarter(username))
 
 
     found = list(filter(lambda x: x.find("Not Found")==-1 and x.find("Error")==-1,result))
