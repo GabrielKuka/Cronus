@@ -160,6 +160,59 @@ def check_animeplanet(username=""):
     else:
         return danger(f"[!] Error. Status Code: {status}")
 
+def check_notabug(username=""):
+    r = requests.get(f"{NOTABUG_REQUEST}/{username}")
+
+    return default_return(r, f"{NOTABUG_REQUEST}/{username}")
+
+def check_openstreetmap(username=""):
+    r = requests.get(f"{OPENSTREETMAP_REQUEST}/{username}")
+
+    return default_return(r, f"{OPENSTREETMAP_REQUEST}/{username}")
+
+def check_pastebin(username=""):
+    r = requests.get(f"{PASTEBIN_REQUEST}/{username}")
+
+    return default_return(r, f"{PASTEBIN_REQUEST}/{username}")
+
+def check_plurk(username=""):
+    r = requests.get(f"{PLURK_REQUEST}/{username}")
+
+    return default_return(r, f"{PLURK_REQUEST}/{username}")
+
+def check_scratch(username=""):
+    r = requests.get(f"{SCRATCH_REQUEST}/{username}")
+
+    return default_return(r, f"{SCRATCH_REQUEST}/{username}")
+
+def check_tripadvisor(username=""):
+    try: 
+        r = requests.get(f"{TRIP_ADVISOR_REQUEST}/{username}", timeout=3)
+    except requests.ReadTimeout as e:
+        return danger("[!] Request timeout")
+    else:
+        return default_return(r, f"{TRIP_ADVISOR_REQUEST}/{username}")
+    
+def check_twitter(username=""):
+    r = requests.get(f"{TWITTER_REQUEST}/{username}")
+
+    return default_return(r, f"{TWITTER_REQUEST}/{username}")
+
+def check_vimeo(username=""):
+    r = requests.get(f"{VIMEO_REQUEST}/{username}")
+
+    return default_return(r, f"{VIMEO_REQUEST}/{username}")
+
+def check_vine(username=""):
+    r = requests.get(f"{VINE_REQUEST}/{username}")
+
+    return default_return(r, f"{VINE_REQUEST}/{username}")
+
+def check_vivino(username=""):
+    r = requests.get(f"{VIVINO_REQUEST}/{username}")
+
+    return default_return(r, f"{VIVINO_REQUEST}/{username}")
+
 def check_social(username):
     result = []
 
@@ -170,7 +223,17 @@ def check_social(username):
         result.append(res)
 
     print("Analysing the internet...")
-    
+
+    print_each("TripAdvisor", check_tripadvisor(username))
+    print_each("Vivino", check_vivino(username))
+    print_each("Vine", check_vine(username))
+    print_each("Vimeo", check_vimeo(username))
+    print_each("Twitter", check_twitter(username))
+    print_each("Plurk", check_plurk(username)) 
+    print_each("Scratch", check_scratch(username)) 
+    print_each("PasteBin", check_pastebin(username))
+    print_each("OpenStreetMap", check_openstreetmap(username))
+    print_each("NotaBug", check_notabug(username))
     print_each("Pinterest", check_pinterest(username))
     print_each("VK", check_vk(username))
     print_each("Tumblr", check_tumblr(username))
@@ -193,7 +256,6 @@ def check_social(username):
     print_each("CloudFlare", check_cloudflare(username))
     print_each("dev.to", check_devto(username))
     print_each("Kickstarter", check_kickstarter(username))
-
 
     found = list(filter(lambda x: x.find("Not Found")==-1 and x.find("Error")==-1,result))
 
