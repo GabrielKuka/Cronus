@@ -213,6 +213,87 @@ def check_vivino(username=""):
 
     return default_return(r, f"{VIVINO_REQUEST}/{username}")
 
+def check_kik(username=""):
+    r = requests.get(f"{KIK_REQUEST}/{username}")
+
+    return default_return(r, f"{KIK_REQUEST}/{username}")
+
+def check_patronite(username=""):
+    r = requests.get(f"{PATREON_REQUEST}/{username}")
+
+    return default_return(r, f"{PATREON_REQUEST}/{username}")
+
+def check_anonup(username=""):
+    r = requests.get(f"{ANONUP_REQUEST}/@{username}")
+
+    status = r.status_code
+    if status == 200:
+        return f"{ANONUP_REQUEST}/@{username}"
+    elif status == 302:
+        return danger("[-] Not found.")
+    else:
+        return danger(f"[!] Error: Status code: {status}")
+
+def check_hackster(username=""):
+    r = requests.get(f"{HACKSTER_REQUEST}/{username}")
+
+    return default_return(r, f"{HACKSTER_REQUEST}/{username}")
+
+def check_wordnik(username=""):
+    r = requests.get(f"{WORDNIK_REQUEST}/{username}")
+
+    return default_return(r, f"{WORDNIK_REQUEST}/{username}")
+
+def check_tradingview(username=""):
+    r = requests.get(f"{TRADINGVIEW_REQUEST}/{username}")
+
+    return default_return(r, f"{TRADINGVIEW_REQUEST}/{username}")
+
+def check_nairaland(username=""):
+    r = requests.get(f"{NAIRALAND_REQUEST}/{username}")
+
+    return default_return(r, f"{NAIRALAND_REQUEST}/{username}")
+
+def check_researchgate(username=""):
+    r = requests.get(f"{RESEARCHGATE_REQUEST}/{username}")
+
+    status = r.status_code
+
+    if status == 200:
+        return f"{RESEARCHGATE_REQUEST}/{username}"
+    elif status == 301:
+        return danger("[-] Not Found.")
+    else:
+        return danger(f"[!] Error: Status code: {status}")
+
+def check_pinkbike(username=""):
+    r = requests.get(f"{PINKBIKE_REQUEST}/{username}")
+
+    return default_return(r, f"{PINKBIKE_REQUEST}/{username}")
+
+def check_producthunt(username=""):
+    r = requests.get(f"{PRODUCTHUNT_REQUEST}/@{username}")
+
+    return default_return(r, f"{PRODUCTHUNT_REQUEST}/@{username}")
+
+def check_warriorforum(username=""):
+    r = requests.get(f"{WARRIORFORUM_REQUEST}/{username}.html")
+
+    status = r.status_code
+
+    if status == 200:
+        return f"{WARRIORFORUM_REQUEST}/{username}.html"
+    elif status == 400:
+        return danger("[-] Not Found.")
+    else:
+        return danger(f"[!] Error: Status code: {status}")
+
+def check_crowdin(username=""):
+    r = requests.get(f"{CROWDIN_REQUEST}/{username}")
+
+    return default_return(r, f"{CROWDIN_REQUEST}/{username}")
+
+
 def check_social(username):
     result = []
 
@@ -224,6 +305,18 @@ def check_social(username):
 
     print("Analysing the internet...")
 
+    print_each("ResearchGate", check_researchgate(username))
+    print_each("Kik", check_kik(username))
+    print_each("Patronite", check_patronite(username))
+    print_each("AnonUp", check_anonup(username))
+    print_each("Hackster", check_hackster(username))
+    print_each("WordNik", check_wordnik(username))
+    print_each("CrowdIn", check_crowdin(username))
+    print_each("WarriorForum", check_warriorforum(username))
+    print_each("PinkBike", check_pinkbike(username))
+    print_each("ProductHunt", check_producthunt(username))
+    print_each("NairaLand", check_nairaland(username))
+    print_each("TradingView", check_tradingview(username))
     print_each("TripAdvisor", check_tripadvisor(username))
     print_each("Vivino", check_vivino(username))
     print_each("Vine", check_vine(username))
@@ -257,11 +350,11 @@ def check_social(username):
     print_each("dev.to", check_devto(username))
     print_each("Kickstarter", check_kickstarter(username))
 
-    found = list(filter(lambda x: x.find("Not Found")==-1 and x.find("Error")==-1,result))
+    found = list(filter(lambda x: x.find("timeout")==-1 and x.find("Not Found")==-1 and x.find("Error")==-1,result))
 
     print("\nHere's what I found online: ")
     for f in found:
-        print(f)
+        print(f"{f[:f.find(' ')]}{Fore.GREEN}{f[f.find(' '):]}{Style.RESET_ALL}")
 
 username = input("Enter username (or \"q\" to exit): ")
 
