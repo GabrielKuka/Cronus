@@ -152,7 +152,7 @@ def check_animeplanet(username=""):
     r = requests.get(f"{ANIMEPLANET_REQUEST}/{username}")
 
     status = r.status_code
-
+    print(status)
     if status == 200:
         return f"{ANIMEPLANET_REQUEST}/{username}"
     elif status == 302:
@@ -226,13 +226,7 @@ def check_patronite(username=""):
 def check_anonup(username=""):
     r = requests.get(f"{ANONUP_REQUEST}/@{username}")
 
-    status = r.status_code
-    if status == 200:
-        return f"{ANONUP_REQUEST}/@{username}"
-    elif status == 302:
-        return danger("[-] Not found.")
-    else:
-        return danger(f"[!] Error: Status code: {status}")
+    return default_return(r, f"{ANONUP_REQUEST}/@{username}")
 
 def check_hackster(username=""):
     r = requests.get(f"{HACKSTER_REQUEST}/{username}")
@@ -242,7 +236,14 @@ def check_hackster(username=""):
 def check_wordnik(username=""):
     r = requests.get(f"{WORDNIK_REQUEST}/{username}")
 
-    return default_return(r, f"{WORDNIK_REQUEST}/{username}")
+    status = r.status_code
+
+    if status == 200:
+        return f"{WORDNIK_REQUEST}/{username}"
+    elif status == 400:
+        return danger("[-] Not Found.")
+    else:
+        return danger(f"[!] Error. Status Code: {status}")
 
 def check_tradingview(username=""):
     r = requests.get(f"{TRADINGVIEW_REQUEST}/{username}")
@@ -253,18 +254,6 @@ def check_nairaland(username=""):
     r = requests.get(f"{NAIRALAND_REQUEST}/{username}")
 
     return default_return(r, f"{NAIRALAND_REQUEST}/{username}")
-
-def check_researchgate(username=""):
-    r = requests.get(f"{RESEARCHGATE_REQUEST}/{username}")
-
-    status = r.status_code
-
-    if status == 200:
-        return f"{RESEARCHGATE_REQUEST}/{username}"
-    elif status == 301:
-        return danger("[-] Not Found.")
-    else:
-        return danger(f"[!] Error: Status code: {status}")
 
 def check_pinkbike(username=""):
     r = requests.get(f"{PINKBIKE_REQUEST}/{username}")
@@ -293,7 +282,6 @@ def check_crowdin(username=""):
 
     return default_return(r, f"{CROWDIN_REQUEST}/{username}")
 
-
 def check_social(username):
     result = []
 
@@ -305,7 +293,6 @@ def check_social(username):
 
     print("Analysing the internet...")
 
-    print_each("ResearchGate", check_researchgate(username))
     print_each("Kik", check_kik(username))
     print_each("Patronite", check_patronite(username))
     print_each("AnonUp", check_anonup(username))
@@ -344,7 +331,7 @@ def check_social(username):
     print_each("ArtistsNClients", check_artistsnclients(username))
     print_each("Ameblo", check_ameblo(username))
     print_each("AminoApps", check_aminoapps(username))
-    print_each("Anime-Planet", check_animeplanet(username))
+    #print_each("Anime-Planet", check_animeplanet(username))
     print_each("CNet", check_cnet(username))
     print_each("CloudFlare", check_cloudflare(username))
     print_each("dev.to", check_devto(username))
@@ -356,14 +343,21 @@ def check_social(username):
     for f in found:
         print(f"{f[:f.find(' ')]}{Fore.GREEN}{f[f.find(' '):]}{Style.RESET_ALL}")
 
-username = input("Enter username (or \"q\" to exit): ")
+if __name__ == '__main__':
+    while True:
+        try:
+            username = input("Enter a username [q to exit]: ")
 
-while username:
-    if username == "q":
-        print(f"{Fore.GREEN}Bye!")
-        sys.exit(0)
-    check_social(username)
-    username = input("\nEnter username (or \"q\" to exit): ")
+            if not username:
+                print(danger("[-] You have to enter a username."))
+                continue
+            
+            if username == "q":
+                print(f"{Fore.GREEN}Bye!")
+                break
+                
+            check_social(username)
 
-if not username: 
-    print(f"{Fore.RED}[!] You didn't enter a username. Try again. Bye!")
+        except KeyboardInterrupt:
+            print(f"\n{Fore.GREEN}Bye!\n")
+            break

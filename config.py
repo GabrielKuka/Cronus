@@ -1,6 +1,5 @@
 PINTEREST_REQUEST = "https://pinterest.com"
 CUPS7_REQUEST = "https://7cups.com"
-RESEARCHGATE_REQUEST = "https://researchgate.net/profile"
 NOTABUG_REQUEST = "https://notabug.org"
 CROWDIN_REQUEST = "https://crowdin.com/profile"
 PINKBIKE_REQUEST = "https://pinkbike.com/u"
